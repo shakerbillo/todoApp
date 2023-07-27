@@ -1,38 +1,56 @@
-.App {
-  text-align: center;
+h1 {
+	text-align: center;
+	font-family: 'Libre Baskerville', serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+	background: #fff;
+}
+#todo-list {
+	width: 500px;
+	margin: 60px auto;
+}
+.border {
+	border-radius: 10px;
+	padding: 10px 20px;
+	margin-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+form {
+	margin-bottom: 60px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+ul {
+	max-width: 550px;
 }
 
-.App-link {
-  color: #61dafb;
+form input {
+	margin-right: 16px;
+}
+.list-group-item {
+	font-family: 'Libre Baskerville', serif;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.button-action {
+	display: flex;
+	justify-content: space-between;
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+.task-counter {
+	margin-bottom: 5px;
+	padding: 5px;
+}
+
+#todo-text{
+	font-size: 24px;
+	
+}
+
+.form-check {
+	display: flex;
+	margin: 10px 0;
+	margin-bottom: 45px;
+
 }
