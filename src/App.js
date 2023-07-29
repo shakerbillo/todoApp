@@ -1,5 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import TaskList from './components/TaskList';
 import AddTask from './components/AddTask';
 import { useEffect, useState } from 'react';
@@ -9,6 +10,7 @@ import SearchTask from './components/SearchTask';
 const App = () => {
 	const [tasks, setTasks] = useState([]);
 	const [search, setSearch] = useState('');
+	
 
 	// Add Task
 	const handleAddTask = (title) => {
@@ -52,17 +54,21 @@ const App = () => {
 		setTasks(updatedTasks);
 	};
 
+
+	
+
+
 	// clear completed tasks
 	const clearCompletedTasks = () => {
-		const confirmed = window.confirm(
-			'Are you sure you want to clear completed tasks?'
-		);
-		if (confirmed) {
+		// const confirmed = window.confirm(
+		// 	'Are you sure you want to clear completed tasks?'
+		// );
+		// if (confirmed) {
 			const updatedTasks = tasks.filter((task) => !task.completed);
 			setTasks(updatedTasks);
 
 			localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-		}
+		
 	};
 
 	// handleComplete

@@ -9,7 +9,7 @@ const TaskList = ({ tasks, onDelete, onEdit, onComplete, remaining, onClearCompl
 				{remaining} remaining out of {tasks.length} tasks
 			</div>
 			<div className='clear'>
-				<ClearTask onSelectAll={onSelectAll} onClearCompleted={onClearCompleted} />
+				<ClearTask tasks={tasks} remaining={remaining} onSelectAll={onSelectAll} onClearCompleted={onClearCompleted} />
 			</div>
 			{tasks.map((task) => (
 				<div className="" style={{ maxWidth: '550px' }} id="todo" key={task.id}>
