@@ -44,6 +44,27 @@ const App = () => {
 		);
 	};
 
+	// function to toggle the selection status of all tasks
+	const handleSelectAll = (selected) => {
+		const updatedTasks = tasks.map((task) => {
+			return { ...task, completed: selected };
+		});
+		setTasks(updatedTasks);
+	};
+
+	// clear completed tasks
+	const clearCompletedTasks = () => {
+		const confirmed = window.confirm(
+			'Are you sure you want to clear completed tasks?'
+		);
+		if (confirmed) {
+			const updatedTasks = tasks.filter((task) => !task.completed);
+			setTasks(updatedTasks);
+
+			localStorage.setItem('tasks', JSON.stringify(updatedTasks));
+		}
+	};
+
 	// handleComplete
 	const handleCompleteTask = (id) => {
 		setTasks(
@@ -71,6 +92,7 @@ const App = () => {
 
 	// task counter
 	const remaining = filteredTasks.filter((task) => !task.completed).length;
+
 	// let remaining = 0;
 	// for (let i = 0; i < tasks.length; i++) {
 	// 	if (tasks[i].completed === false) {
@@ -99,6 +121,8 @@ const App = () => {
 			<SearchTask search={search} onSearch={handleSearchChange} />
 			<AddTask onAddTask={handleAddTask} />
 			<TaskList
+				onSelectAll={handleSelectAll}
+				onClearCompleted={clearCompletedTasks}
 				tasks={filteredTasks}
 				onDelete={handleDeleteTask}
 				onEdit={handleEditTask}

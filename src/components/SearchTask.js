@@ -10,6 +10,7 @@ const SearchTask = ({ search, onSearch }) => {
 					placeholder="Search Task..."
 					style={{ maxWidth: '400px' }}
 				/>
+				
 			</div>
 		</>
 	);

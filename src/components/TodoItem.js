@@ -10,6 +10,7 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
 		setError('');
 	};
 
+	
 	const handleSave = () => {
 		if (editedTitle.trim() === '') {
 			setError('Title cannot be empty.');
@@ -32,7 +33,7 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
 		<>
 			<div className="border border-2" id="todo-text">
 				<div className="form-check">
-					<label className="form-check-label" htmlFor='for="flexCheckDefault"'>
+					<label className="form-check-label" htmlFor="flexCheckDefault">
 						<input
 							id="flexCheckChecked"
 							type="checkbox"
@@ -40,6 +41,8 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
 							checked={task.completed}
 							onChange={handleCompletedTask}
 						/>
+
+						
 						{isEditing ? (
 							<>
 								<input
@@ -54,7 +57,11 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
 								{error && <div className="invalid-feedback">{error}</div>}
 							</>
 						) : (
-							<div>{task.title}</div>
+							<div
+								style={{ textDecoration: task.completed ? 'line-through' : '' }}
+							>
+								{task.title}
+							</div>
 						)}
 					</label>
 				</div>
