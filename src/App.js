@@ -13,6 +13,7 @@ const App = () => {
 	const [tasks, setTasks] = useState([]);
 	const [search, setSearch] = useState('');
 	const [filter, setFilter] = useState('All');
+	const [sortOrder, setSortOrder] = useState('ascending');
 
 	// Add Task
 	const handleAddTask = (title) => {
@@ -93,6 +94,29 @@ const App = () => {
 		}
 	};
 
+	// sorting tasks by alphabetically
+	const sortAlphabetically = () => {
+		if (!sortOrder) {
+			// No sorting applied, return tasks as they are (default view)
+			return tasks;
+		}
+
+		// sorting tasks alphabetically
+		const sortedTasks = [...tasks].sort((a, b) => {
+			if (sortOrder === 'ascending') {
+				return a.title.localeCompare(b.title);
+			} else if (sortOrder === 'descending') {
+				return b.title.localeCompare(a.title);
+			}
+			return 0;
+		});
+		setTasks(sortedTasks);
+		 setSortOrder(sortOrder === 'ascending' ? 'descending' : 'ascending');
+	};
+
+	
+  
+
 	// Search Filter
 	const filteredTasks = applyFilter().filter((task) => {
 		const searchText = search.toLowerCase().trim();
@@ -129,7 +153,7 @@ const App = () => {
 			<SearchTask search={search} onSearch={handleSearchChange} />
 			<AddTask onAddTask={handleAddTask} />
 			<FilterOption filter={filter} setFilter={setFilter} />
-			<SortOption />
+			<SortOption sortOrder={sortOrder} onSortChange={sortAlphabetically} />
 			<TaskList
 				onSelectAll={handleSelectAll}
 				onClearCompleted={clearCompletedTasks}
