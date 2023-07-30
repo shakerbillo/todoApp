@@ -95,9 +95,14 @@ const App = () => {
 
 	// Search Filter
 	const filteredTasks = applyFilter().filter((task) => {
-		return search.toLowerCase() === ''
-			? task
-			: task.title.toLowerCase().includes(search);
+		const searchText = search.toLowerCase().trim();
+		if (searchText === '') return true;
+		const titleIncludesSearch = task.title.toLowerCase().includes(searchText);
+		const descriptionIncludesSearch = task.description
+			? task.description.toLowerCase().includes(searchText)
+			: false;
+
+		return titleIncludesSearch || descriptionIncludesSearch;
 	});
 
 	// task counter
