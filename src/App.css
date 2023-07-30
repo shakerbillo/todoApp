@@ -58,5 +58,17 @@ form input {
 .clear{
 	margin-top: 15px;
 	margin-bottom: 5px;
-	margin-right: 50px;
+	
+}
+
+.filter{
+	display: flex;
+	justify-content: space-between;
+	margin-right: 1.5rem;
+	
+}
+
+.sort{
+	margin-top: 15px;
+	margin-bottom: 5px;
 }

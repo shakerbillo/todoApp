@@ -6,11 +6,13 @@ import AddTask from './components/AddTask';
 import { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import SearchTask from './components/SearchTask';
+import FilterOption from './components/FilterOption';
+import SortOption from './components/SortOption';
 
 const App = () => {
 	const [tasks, setTasks] = useState([]);
 	const [search, setSearch] = useState('');
-	
+	const [filter, setFilter] = useState('All');
 
 	// Add Task
 	const handleAddTask = (title) => {
@@ -39,11 +41,11 @@ const App = () => {
 
 	// handleDelete
 	const handleDeleteTask = (id) => {
-		setTasks(
-			tasks.filter((task) => {
-				return task.id !== id;
-			})
-		);
+		const updatedTasks = tasks.filter((task) => {
+			return task.id !== id;
+		});
+		setTasks(updatedTasks);
+		localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 	};
 
 	// function to toggle the selection status of all tasks
@@ -54,21 +56,12 @@ const App = () => {
 		setTasks(updatedTasks);
 	};
 
-
-	
-
-
 	// clear completed tasks
 	const clearCompletedTasks = () => {
-		// const confirmed = window.confirm(
-		// 	'Are you sure you want to clear completed tasks?'
-		// );
-		// if (confirmed) {
-			const updatedTasks = tasks.filter((task) => !task.completed);
-			setTasks(updatedTasks);
+		const updatedTasks = tasks.filter((task) => !task.completed);
+		setTasks(updatedTasks);
 
-			localStorage.setItem('tasks', JSON.stringify(updatedTasks));
-		
+		localStorage.setItem('tasks', JSON.stringify(updatedTasks));
 	};
 
 	// handleComplete
@@ -89,8 +82,19 @@ const App = () => {
 		setSearch(e.target.value);
 	};
 
+	// Filter tasks based on the selected filter
+	const applyFilter = () => {
+		if (filter === 'All') {
+			return tasks;
+		} else if (filter === 'Active') {
+			return tasks.filter((task) => !task.completed);
+		} else if (filter === 'Completed') {
+			return tasks.filter((task) => task.completed);
+		}
+	};
+
 	// Search Filter
-	const filteredTasks = tasks.filter((task) => {
+	const filteredTasks = applyFilter().filter((task) => {
 		return search.toLowerCase() === ''
 			? task
 			: task.title.toLowerCase().includes(search);
@@ -98,13 +102,6 @@ const App = () => {
 
 	// task counter
 	const remaining = filteredTasks.filter((task) => !task.completed).length;
-
-	// let remaining = 0;
-	// for (let i = 0; i < tasks.length; i++) {
-	// 	if (tasks[i].completed === false) {
-	// 		remaining = remaining + 1;
-	// 	}
-	// }
 
 	// Save todos to local storage
 	useEffect(() => {
@@ -126,6 +123,8 @@ const App = () => {
 			<h1>Todo List</h1>
 			<SearchTask search={search} onSearch={handleSearchChange} />
 			<AddTask onAddTask={handleAddTask} />
+			<FilterOption filter={filter} setFilter={setFilter} />
+			<SortOption />
 			<TaskList
 				onSelectAll={handleSelectAll}
 				onClearCompleted={clearCompletedTasks}
