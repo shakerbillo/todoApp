@@ -1,6 +1,5 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import TaskList from './components/TaskList';
 import AddTask from './components/AddTask';
 import { useEffect, useState } from 'react';
@@ -8,22 +7,30 @@ import { v4 as uuidv4 } from 'uuid';
 import SearchTask from './components/SearchTask';
 import FilterOption from './components/FilterOption';
 import SortOption from './components/SortOption';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const App = () => {
 	const [tasks, setTasks] = useState([]);
 	const [search, setSearch] = useState('');
 	const [filter, setFilter] = useState('All');
 	const [sortOrder, setSortOrder] = useState('ascending');
+	const [selectDate, setSelectDate] = useState('');
 
 	// Add Task
-	const handleAddTask = (title) => {
-		if (title.trim() === '') {
-			alert('Please add a task!');
+	const handleAddTask = (title, date) => {
+		if (title.trim() === '' && date === '') {
+			alert('Please add a task and due date!');
 			return;
 		}
 		setTasks([
 			...tasks,
-			{ id: uuidv4(), title: title.trim(), completed: false },
+			{
+				id: uuidv4(),
+				title: title.trim(),
+				completed: false,
+				date: date,
+			},
 		]);
 	};
 
@@ -94,6 +101,12 @@ const App = () => {
 		}
 	};
 
+	// select date and time
+	const handleDateTimeChange = (date) => {
+		setSelectDate(new Date(date));
+		
+	};
+
 	// sorting tasks by alphabetically
 	const sortAlphabetically = () => {
 		if (!sortOrder) {
@@ -111,11 +124,8 @@ const App = () => {
 			return 0;
 		});
 		setTasks(sortedTasks);
-		 setSortOrder(sortOrder === 'ascending' ? 'descending' : 'ascending');
+		setSortOrder(sortOrder === 'ascending' ? 'descending' : 'ascending');
 	};
-
-	
-  
 
 	// Search Filter
 	const filteredTasks = applyFilter().filter((task) => {
@@ -151,10 +161,25 @@ const App = () => {
 		<div className="container" id="todo-list">
 			<h1>Todo List</h1>
 			<SearchTask search={search} onSearch={handleSearchChange} />
-			<AddTask onAddTask={handleAddTask} />
+			<AddTask
+				onAddTask={handleAddTask}
+				date={selectDate}
+				setSelectDate={setSelectDate}
+			/>
+			<DatePicker
+				showTimeSelect
+				timeFormat="HH:mm"
+				timeIntervals={15}
+				dateFormat="dd/MM/yyyy"
+				className="form-control date-picker"
+				placeholderText="select date"
+				selected={selectDate}
+				onChange={handleDateTimeChange}
+			/>
 			<FilterOption filter={filter} setFilter={setFilter} />
 			<SortOption sortOrder={sortOrder} onSortChange={sortAlphabetically} />
 			<TaskList
+				date={selectDate}
 				onSelectAll={handleSelectAll}
 				onClearCompleted={clearCompletedTasks}
 				tasks={filteredTasks}

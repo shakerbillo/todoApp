@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
-const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
+
+const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedTitle, setEditedTitle] = useState(task.title);
 	const [error, setError] = useState('');
@@ -10,7 +13,6 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
 		setError('');
 	};
 
-	
 	const handleSave = () => {
 		if (editedTitle.trim() === '') {
 			setError('Title cannot be empty.');
@@ -42,7 +44,6 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
 							onChange={handleCompletedTask}
 						/>
 
-						
 						{isEditing ? (
 							<>
 								<input
@@ -64,6 +65,12 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask }) => {
 							</div>
 						)}
 					</label>
+					{date && (
+    <div>
+      <FontAwesomeIcon icon={faCalendarAlt} />
+      {date.toLocaleDateString()} - {date.toLocaleTimeString()}
+    </div>
+	 )}
 				</div>
 
 				<div className="button-action">
