@@ -10,7 +10,7 @@ const TaskList = ({
 	remaining,
 	onClearCompleted,
 	onSelectAll,
-	date
+	date,
 }) => {
 	return (
 		<div>
@@ -28,7 +28,7 @@ const TaskList = ({
 			{tasks.map((task) => (
 				<div className="" style={{ maxWidth: '550px' }} id="todo" key={task.id}>
 					<TodoItem
-					date={new Date(task.date)}
+						date={new Date(task.date)}
 						task={task}
 						onDeleteTask={onDelete}
 						onEditTask={onEdit}

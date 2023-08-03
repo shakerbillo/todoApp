@@ -1,23 +1,33 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedTitle, setEditedTitle] = useState(task.title);
 	const [error, setError] = useState('');
+	const [editedDate, setEditedDate] = useState(new Date(date));
 
 	const handleEditChange = (e) => {
 		setEditedTitle(e.target.value);
 		setError('');
 	};
 
+	const handleDateTimeChange = (date) => {
+		setEditedDate(date);
+	};
+
 	const handleSave = () => {
 		if (editedTitle.trim() === '') {
 			setError('Title cannot be empty.');
 		} else {
-			onEditTask({ ...task, title: editedTitle });
+			onEditTask({
+				...task,
+				title: editedTitle,
+				date: editedDate,
+			});
 			setIsEditing(false);
 		}
 	};
@@ -25,6 +35,7 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 	const handleCancel = () => {
 		setIsEditing(false);
 		setEditedTitle(task.title);
+		setEditedDate(new Date(date));
 	};
 
 	const handleCompletedTask = () => {
@@ -55,7 +66,18 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 									value={editedTitle}
 									onChange={handleEditChange}
 								/>
+
 								{error && <div className="invalid-feedback">{error}</div>}
+
+								<DatePicker
+									showTimeSelect
+									timeFormat="HH:mm"
+									timeIntervals={15}
+									dateFormat="dd/MM/yyyy"
+									selected={editedDate}
+									onChange={handleDateTimeChange}
+									showYearDropdown
+								/>
 							</>
 						) : (
 							<div
@@ -66,11 +88,11 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 						)}
 					</label>
 					{date && (
-    <div>
-      <FontAwesomeIcon icon={faCalendarAlt} />
-      {date.toLocaleDateString()} - {date.toLocaleTimeString()}
-    </div>
-	 )}
+						<div>
+							<FontAwesomeIcon icon={faCalendarAlt} />
+							{date.toLocaleDateString()} - {date.toLocaleTimeString()}
+						</div>
+					)}
 				</div>
 
 				<div className="button-action">

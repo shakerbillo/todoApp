@@ -35,7 +35,7 @@ const App = () => {
 	};
 
 	// hanldeEdit
-	const handleEditTask = (nextTask) => {
+	const handleEditTask = (nextTask, date) => {
 		setTasks(
 			tasks.map((task) => {
 				if (task.id === nextTask.id) {
@@ -104,13 +104,11 @@ const App = () => {
 	// select date and time
 	const handleDateTimeChange = (date) => {
 		setSelectDate(new Date(date));
-		
 	};
 
 	// sorting tasks by alphabetically
 	const sortAlphabetically = () => {
 		if (!sortOrder) {
-			// No sorting applied, return tasks as they are (default view)
 			return tasks;
 		}
 
@@ -171,10 +169,13 @@ const App = () => {
 				timeFormat="HH:mm"
 				timeIntervals={15}
 				dateFormat="dd/MM/yyyy"
+				minDate={new Date()}
 				className="form-control date-picker"
 				placeholderText="select date"
 				selected={selectDate}
 				onChange={handleDateTimeChange}
+				showYearDropdown
+			
 			/>
 			<FilterOption filter={filter} setFilter={setFilter} />
 			<SortOption sortOrder={sortOrder} onSortChange={sortAlphabetically} />
