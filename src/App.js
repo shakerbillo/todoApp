@@ -14,7 +14,7 @@ const App = () => {
 	const [tasks, setTasks] = useState([]);
 	const [search, setSearch] = useState('');
 	const [filter, setFilter] = useState('All');
-	const [sortOrder, setSortOrder] = useState('ascending');
+	const [sortOrder, setSortOrder] = useState('');
 	const [selectDate, setSelectDate] = useState('');
 
 	// Add Task
@@ -106,24 +106,33 @@ const App = () => {
 		setSelectDate(new Date(date));
 	};
 
-	// sorting tasks by alphabetically
-	const sortAlphabetically = () => {
+	// sorting task
+	const sortTask = () => {
 		if (!sortOrder) {
 			return tasks;
 		}
 
-		// sorting tasks alphabetically
+		// sorting criteria
 		const sortedTasks = [...tasks].sort((a, b) => {
-			if (sortOrder === 'ascending') {
+			if (sortOrder === 'asc') {
 				return a.title.localeCompare(b.title);
-			} else if (sortOrder === 'descending') {
+			} else if (sortOrder === 'desc') {
 				return b.title.localeCompare(a.title);
+			} else if (sortOrder === 'date') {
+				return new Date(a.date) - new Date(b.date);
 			}
 			return 0;
 		});
+
 		setTasks(sortedTasks);
-		setSortOrder(sortOrder === 'ascending' ? 'descending' : 'ascending');
 	};
+	const handleSortChange = (e) => {
+		setSortOrder(e.target.value);
+	};
+
+	useEffect(() => {
+		sortTask(); // Sort the tasks when sortOrder changes
+	}, [sortOrder]);
 
 	// Search Filter
 	const filteredTasks = applyFilter().filter((task) => {
@@ -175,10 +184,9 @@ const App = () => {
 				selected={selectDate}
 				onChange={handleDateTimeChange}
 				showYearDropdown
-			
 			/>
 			<FilterOption filter={filter} setFilter={setFilter} />
-			<SortOption sortOrder={sortOrder} onSortChange={sortAlphabetically} />
+			<SortOption sortOrder={sortOrder} onSortChange={handleSortChange} />
 			<TaskList
 				date={selectDate}
 				onSelectAll={handleSelectAll}

@@ -80,19 +80,24 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 								/>
 							</>
 						) : (
-							<div
-								style={{ textDecoration: task.completed ? 'line-through' : '' }}
-							>
-								{task.title}
-							</div>
+							<>
+								<div
+									style={{
+										textDecoration: task.completed ? 'line-through' : '',
+									}}
+								>
+									{task.title}
+								</div>
+
+								<div className='date-output' >
+									<FontAwesomeIcon icon={faCalendarAlt} />
+									<span style={{ marginLeft: '5px' }}>
+										{date.toLocaleDateString()} - {date.toLocaleTimeString()}
+									</span>
+								</div>
+							</>
 						)}
 					</label>
-					{date && (
-						<div>
-							<FontAwesomeIcon icon={faCalendarAlt} />
-							{date.toLocaleDateString()} - {date.toLocaleTimeString()}
-						</div>
-					)}
 				</div>
 
 				<div className="button-action">
