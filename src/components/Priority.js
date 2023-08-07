@@ -1,19 +1,16 @@
 import React from 'react';
 
-const SortOption = ({ sortOrder, onSortChange }) => {
+const Priority = ({ onPriorityChange, priority }) => {
 	return (
-		<div className="sort">
+		<div className="priority">
 			<select
-				onChange={onSortChange}
+				onChange={onPriorityChange}
 				className="form-select form-select-lg mb-3"
 				style={{ width: '40%' }}
 				aria-label=".form-select-lg example"
-				value={sortOrder}
+				value={priority}
 			>
-				<option>Sort by:</option>
-				<option value="asc">Ascending</option>
-				<option value="desc">Descending</option>
-				<option value="date">Date</option>
+				<option>Priority:</option>
 				<option value="High">High</option>
 				<option value="Medium">Medium</option>
 				<option value="Low">Low</option>
@@ -22,4 +19,4 @@ const SortOption = ({ sortOrder, onSortChange }) => {
 	);
 };
 
-export default SortOption;
+export default Priority;

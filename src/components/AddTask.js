@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-const AddTask = ({ onAddTask , date, setSelectDate}) => {
+const AddTask = ({ onAddTask , date, setSelectDate,priority, setSelectPriority}) => {
 	const [title, setTitle] = useState('');
 
 	// handleTodoChange
@@ -10,9 +10,11 @@ const AddTask = ({ onAddTask , date, setSelectDate}) => {
 	};
 
 	const handleButtonClick = () => {
-		onAddTask(title, date);
+		onAddTask(title, date, priority);
 		setTitle('');
 		setSelectDate('')
+		setSelectPriority('')
+
 	};
 	return (
 		<>

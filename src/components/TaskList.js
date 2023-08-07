@@ -11,6 +11,7 @@ const TaskList = ({
 	onClearCompleted,
 	onSelectAll,
 	date,
+	priority,
 }) => {
 	return (
 		<div>
@@ -28,6 +29,7 @@ const TaskList = ({
 			{tasks.map((task) => (
 				<div className="" style={{ maxWidth: '550px' }} id="todo" key={task.id}>
 					<TodoItem
+						priority={priority}
 						date={new Date(task.date)}
 						task={task}
 						onDeleteTask={onDelete}

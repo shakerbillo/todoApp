@@ -9,6 +9,7 @@ import FilterOption from './components/FilterOption';
 import SortOption from './components/SortOption';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Priority from './components/Priority';
 
 const App = () => {
 	const [tasks, setTasks] = useState([]);
@@ -16,10 +17,11 @@ const App = () => {
 	const [filter, setFilter] = useState('All');
 	const [sortOrder, setSortOrder] = useState('');
 	const [selectDate, setSelectDate] = useState('');
+	const [selectPriority, setSelectPriority] = useState('');
 
 	// Add Task
-	const handleAddTask = (title, date) => {
-		if (title.trim() === '' && date === '') {
+	const handleAddTask = (title, date, priority) => {
+		if (title.trim() === '') {
 			alert('Please add a task and due date!');
 			return;
 		}
@@ -30,12 +32,13 @@ const App = () => {
 				title: title.trim(),
 				completed: false,
 				date: date,
+				priority: priority,
 			},
 		]);
 	};
 
 	// hanldeEdit
-	const handleEditTask = (nextTask, date) => {
+	const handleEditTask = (nextTask) => {
 		setTasks(
 			tasks.map((task) => {
 				if (task.id === nextTask.id) {
@@ -130,9 +133,15 @@ const App = () => {
 		setSortOrder(e.target.value);
 	};
 
+	// Sort the tasks when sortOrder changes
 	useEffect(() => {
-		sortTask(); // Sort the tasks when sortOrder changes
+		sortTask();
 	}, [sortOrder]);
+
+	// handle priorities
+	const handlePriorityChange = (e) => {
+		setSelectPriority(e.target.value);
+	};
 
 	// Search Filter
 	const filteredTasks = applyFilter().filter((task) => {
@@ -172,6 +181,8 @@ const App = () => {
 				onAddTask={handleAddTask}
 				date={selectDate}
 				setSelectDate={setSelectDate}
+				priority={selectPriority}
+				setSelectPriority={setSelectPriority}
 			/>
 			<DatePicker
 				showTimeSelect
@@ -185,9 +196,14 @@ const App = () => {
 				onChange={handleDateTimeChange}
 				showYearDropdown
 			/>
+			<Priority
+				onPriorityChange={handlePriorityChange}
+				priority={selectPriority}
+			/>
 			<FilterOption filter={filter} setFilter={setFilter} />
 			<SortOption sortOrder={sortOrder} onSortChange={handleSortChange} />
 			<TaskList
+				priority={selectPriority}
 				date={selectDate}
 				onSelectAll={handleSelectAll}
 				onClearCompleted={clearCompletedTasks}

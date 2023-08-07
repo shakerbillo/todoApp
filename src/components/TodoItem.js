@@ -4,19 +4,31 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
+const TodoItem = ({
+	task,
+	onDeleteTask,
+	onEditTask,
+	onCompleteTask,
+	date,
+	priority,
+}) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedTitle, setEditedTitle] = useState(task.title);
 	const [error, setError] = useState('');
-	const [editedDate, setEditedDate] = useState(new Date(date));
+	const [editedDate, setEditedDate] = useState(new Date(task.date));
+	const [editedPriority, setEditedPriority] = useState(task.priority);
 
 	const handleEditChange = (e) => {
 		setEditedTitle(e.target.value);
 		setError('');
 	};
 
-	const handleDateTimeChange = (date) => {
+	const handleEditDateTimeChange = (date) => {
 		setEditedDate(date);
+	};
+
+	const handleEditPriorityChange = (e) => {
+		setEditedPriority(e.target.value);
 	};
 
 	const handleSave = () => {
@@ -27,6 +39,7 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 				...task,
 				title: editedTitle,
 				date: editedDate,
+				priority: editedPriority,
 			});
 			setIsEditing(false);
 		}
@@ -35,7 +48,8 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 	const handleCancel = () => {
 		setIsEditing(false);
 		setEditedTitle(task.title);
-		setEditedDate(new Date(date));
+		setEditedDate(new Date(task.date));
+		setEditedPriority(task.priority);
 	};
 
 	const handleCompletedTask = () => {
@@ -75,27 +89,48 @@ const TodoItem = ({ task, onDeleteTask, onEditTask, onCompleteTask, date }) => {
 									timeIntervals={15}
 									dateFormat="dd/MM/yyyy"
 									selected={editedDate}
-									onChange={handleDateTimeChange}
+									onChange={handleEditDateTimeChange}
 									showYearDropdown
 								/>
+
+								<select
+									onChange={handleEditPriorityChange}
+									className="form-select form-select-lg mb-3"
+									aria-label=".form-select-lg example"
+									value={editedPriority}
+								>
+									<option>Priority:</option>
+									<option value="High">High</option>
+									<option value="Medium">Medium</option>
+									<option value="Low">Low</option>
+								</select>
 							</>
 						) : (
-							<>
-								<div
-									style={{
-										textDecoration: task.completed ? 'line-through' : '',
-									}}
-								>
-									{task.title}
-								</div>
+							<div
+								style={{
+									textDecoration: task.completed ? 'line-through' : '',
+								}}
+							>
+								<div>{task.title}</div>
 
-								<div className='date-output' >
+								<div className="todo-output">
 									<FontAwesomeIcon icon={faCalendarAlt} />
 									<span style={{ marginLeft: '5px' }}>
 										{date.toLocaleDateString()} - {date.toLocaleTimeString()}
 									</span>
 								</div>
-							</>
+								<div
+									className={`btn ${
+										task.priority === 'High'
+											? 'btn-outline-danger btn-sm'
+											: task.priority === 'Medium'
+											? 'btn-outline-warning btn-sm'
+											: 'btn-outline-success btn-sm'
+									} todo-output`}
+								>
+									{task.priority}
+								</div>
+							</div>
 						)}
 					</label>
 				</div>
