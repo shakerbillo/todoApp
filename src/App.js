@@ -111,6 +111,10 @@ const App = () => {
 
 	// sorting task
 	const sortTask = () => {
+		console.log('Sorting tasks...');
+		console.log('Sort Order:', sortOrder); // Check sortOrder value
+		console.log('Tasks before sorting:', tasks);
+
 		if (!sortOrder) {
 			return tasks;
 		}
@@ -123,13 +127,22 @@ const App = () => {
 				return b.title.localeCompare(a.title);
 			} else if (sortOrder === 'date') {
 				return new Date(a.date) - new Date(b.date);
+			} else if (sortOrder === 'High') {
+				return a.priority === 'High' ? -1 : b.priority === 'High' ? 1 : 0;
+			} else if (sortOrder === 'Medium') {
+				return a.priority === 'Medium' ? -1 : b.priority === 'Medium' ? 1 : 0;
+			} else if (sortOrder === 'Low') {
+				return a.priority === 'Low' ? -1 : b.priority === 'Low' ? 1 : 0;
 			}
 			return 0;
 		});
 
+		console.log('Sorted tasks:', sortedTasks);
 		setTasks(sortedTasks);
 	};
+
 	const handleSortChange = (e) => {
+		console.log('Sort order changed:', e.target.value);
 		setSortOrder(e.target.value);
 	};
 

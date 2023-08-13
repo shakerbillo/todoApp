@@ -100,9 +100,9 @@ const TodoItem = ({
 									value={editedPriority}
 								>
 									<option>Priority:</option>
-									<option value="High">High</option>
-									<option value="Medium">Medium</option>
-									<option value="Low">Low</option>
+									<option value="high">High</option>
+									<option value="medium">Medium</option>
+									<option value="low">Low</option>
 								</select>
 							</>
 						) : (
