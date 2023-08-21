@@ -10,6 +10,8 @@ import SortOption from './components/SortOption';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Priority from './components/Priority';
+import Switch from './components/Switch';
+import { useTheme } from './Hook/ThemeContext';
 
 const App = () => {
 	const [tasks, setTasks] = useState([]);
@@ -18,6 +20,9 @@ const App = () => {
 	const [sortOrder, setSortOrder] = useState('');
 	const [selectDate, setSelectDate] = useState('');
 	const [selectPriority, setSelectPriority] = useState('');
+
+	//Theme
+	const { theme } = useTheme();
 
 	// Add Task
 	const handleAddTask = (title, date, priority) => {
@@ -118,15 +123,16 @@ const App = () => {
 		if (!sortOrder) {
 			return tasks;
 		}
-
 		// sorting criteria
 		const sortedTasks = [...tasks].sort((a, b) => {
 			if (sortOrder === 'asc') {
 				return a.title.localeCompare(b.title);
 			} else if (sortOrder === 'desc') {
 				return b.title.localeCompare(a.title);
-			} else if (sortOrder === 'date') {
+			} else if (sortOrder === 'first-date') {
 				return new Date(a.date) - new Date(b.date);
+			} else if (sortOrder === 'last-date') {
+				return new Date(b.date) - new Date(a.date);
 			} else if (sortOrder === 'High') {
 				return a.priority === 'High' ? -1 : b.priority === 'High' ? 1 : 0;
 			} else if (sortOrder === 'Medium') {
@@ -187,45 +193,59 @@ const App = () => {
 	}, []);
 
 	return (
-		<div className="container" id="todo-list">
-			<h1>Todo List</h1>
-			<SearchTask search={search} onSearch={handleSearchChange} />
-			<AddTask
-				onAddTask={handleAddTask}
-				date={selectDate}
-				setSelectDate={setSelectDate}
-				priority={selectPriority}
-				setSelectPriority={setSelectPriority}
-			/>
-			<DatePicker
-				showTimeSelect
-				timeFormat="HH:mm"
-				timeIntervals={15}
-				dateFormat="dd/MM/yyyy"
-				minDate={new Date()}
-				className="form-control date-picker"
-				placeholderText="select date"
-				selected={selectDate}
-				onChange={handleDateTimeChange}
-				showYearDropdown
-			/>
-			<Priority
-				onPriorityChange={handlePriorityChange}
-				priority={selectPriority}
-			/>
-			<FilterOption filter={filter} setFilter={setFilter} />
-			<SortOption sortOrder={sortOrder} onSortChange={handleSortChange} />
-			<TaskList
-				priority={selectPriority}
-				date={selectDate}
-				onSelectAll={handleSelectAll}
-				onClearCompleted={clearCompletedTasks}
-				tasks={filteredTasks}
-				onDelete={handleDeleteTask}
-				onEdit={handleEditTask}
-				onComplete={handleCompleteTask}
-				remaining={remaining}
-			/>
+		<div
+			className="App"
+			style={{
+				backgroundColor: theme === 'light' ? 'white' : 'black',
+			}}
+		>
+			<div className="container" id="todo-list">
+				<Switch />
+				<h1
+					style={{
+						color: theme === 'light' ? 'black' : 'white',
+					}}
+				>
+					Todo List
+				</h1>
+				<SearchTask search={search} onSearch={handleSearchChange} />
+				<AddTask
+					onAddTask={handleAddTask}
+					date={selectDate}
+					setSelectDate={setSelectDate}
+					priority={selectPriority}
+					setSelectPriority={setSelectPriority}
+				/>
+				<DatePicker
+					showTimeSelect
+					timeFormat="HH:mm"
+					timeIntervals={15}
+					dateFormat="dd/MM/yyyy"
+					minDate={new Date()}
+					className="form-control date-picker"
+					placeholderText="select date"
+					selected={selectDate}
+					onChange={handleDateTimeChange}
+					showYearDropdown
+				/>
+				<Priority
+					onPriorityChange={handlePriorityChange}
+					priority={selectPriority}
+				/>
+				<FilterOption filter={filter} setFilter={setFilter} />
+				<SortOption sortOrder={sortOrder} onSortChange={handleSortChange} />
+				<TaskList
+					priority={selectPriority}
+					date={selectDate}
+					onSelectAll={handleSelectAll}
+					onClearCompleted={clearCompletedTasks}
+					tasks={filteredTasks}
+					onDelete={handleDeleteTask}
+					onEdit={handleEditTask}
+					onComplete={handleCompleteTask}
+					remaining={remaining}
+				/>
+			</div>
 		</div>
 	);
 };

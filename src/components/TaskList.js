@@ -1,6 +1,7 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import ClearTask from './ClearTask';
+import { useTheme } from '../Hook/ThemeContext';
 
 const TaskList = ({
 	tasks,
@@ -13,8 +14,12 @@ const TaskList = ({
 	date,
 	priority,
 }) => {
+
+	const {theme} = useTheme()
 	return (
-		<div>
+		<div style={{
+			color: theme === "light" ? "black" : "white",
+		  }}>
 			<div className="task-counter">
 				{remaining} remaining out of {tasks.length} tasks
 			</div>

@@ -32,7 +32,7 @@ const FilterOption = ({ filter, setFilter }) => {
 			</button>
 			<button
 				type="button"
-				className={`btn btn-outline-dark ${
+				className={`btn btn-outline-danger ${
 					filter === 'Completed' ? 'active' : ''
 				}`}
 				onClick={handleCompletedClick}

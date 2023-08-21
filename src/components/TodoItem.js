@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useTheme } from '../Hook/ThemeContext';
 
 const TodoItem = ({
 	task,
@@ -11,12 +12,15 @@ const TodoItem = ({
 	onCompleteTask,
 	date,
 	priority,
+	
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedTitle, setEditedTitle] = useState(task.title);
 	const [error, setError] = useState('');
 	const [editedDate, setEditedDate] = useState(new Date(task.date));
 	const [editedPriority, setEditedPriority] = useState(task.priority);
+
+	const {theme} = useTheme()
 
 	const handleEditChange = (e) => {
 		setEditedTitle(e.target.value);
@@ -57,7 +61,10 @@ const TodoItem = ({
 	};
 
 	return (
-		<>
+		<div style={{
+			color: theme === "light" ? "black" : "white",
+		  }}
+		 >
 			<div className="border border-2" id="todo-text">
 				<div className="form-check">
 					<label className="form-check-label" htmlFor="flexCheckDefault">
@@ -163,7 +170,7 @@ const TodoItem = ({
 					)}
 				</div>
 			</div>
-		</>
+		</div>
 	);
 };
 

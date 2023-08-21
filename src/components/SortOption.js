@@ -13,7 +13,8 @@ const SortOption = ({ sortOrder, onSortChange }) => {
 				<option>Sort by:</option>
 				<option value="asc">Ascending</option>
 				<option value="desc">Descending</option>
-				<option value="date">Date</option>
+				<option value="first-date">First Date</option>
+				<option value="last-date">Last Date</option>
 				<option value="High">High</option>
 				<option value="Medium">Medium</option>
 				<option value="Low">Low</option>
