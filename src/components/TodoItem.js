@@ -12,15 +12,16 @@ const TodoItem = ({
 	onCompleteTask,
 	date,
 	priority,
-	
+	tag,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedTitle, setEditedTitle] = useState(task.title);
 	const [error, setError] = useState('');
 	const [editedDate, setEditedDate] = useState(new Date(task.date));
 	const [editedPriority, setEditedPriority] = useState(task.priority);
+	const [editedTag, setEditedTag] = useState(task.tag);
 
-	const {theme} = useTheme()
+	const { theme } = useTheme();
 
 	const handleEditChange = (e) => {
 		setEditedTitle(e.target.value);
@@ -35,6 +36,10 @@ const TodoItem = ({
 		setEditedPriority(e.target.value);
 	};
 
+	const handleEditTagChange = (e) => {
+		setEditedTag(e.target.value);
+	};
+
 	const handleSave = () => {
 		if (editedTitle.trim() === '') {
 			setError('Title cannot be empty.');
@@ -44,6 +49,7 @@ const TodoItem = ({
 				title: editedTitle,
 				date: editedDate,
 				priority: editedPriority,
+				tag:editedTag
 			});
 			setIsEditing(false);
 		}
@@ -54,6 +60,7 @@ const TodoItem = ({
 		setEditedTitle(task.title);
 		setEditedDate(new Date(task.date));
 		setEditedPriority(task.priority);
+		setEditedTag(task.tag);
 	};
 
 	const handleCompletedTask = () => {
@@ -61,10 +68,11 @@ const TodoItem = ({
 	};
 
 	return (
-		<div style={{
-			color: theme === "light" ? "black" : "white",
-		  }}
-		 >
+		<div
+			style={{
+				color: theme === 'light' ? 'black' : 'white',
+			}}
+		>
 			<div className="border border-2" id="todo-text">
 				<div className="form-check">
 					<label className="form-check-label" htmlFor="flexCheckDefault">
@@ -111,6 +119,17 @@ const TodoItem = ({
 									<option value="medium">Medium</option>
 									<option value="low">Low</option>
 								</select>
+
+								<select
+									onChange={handleEditTagChange}
+									className="form-select form-select-lg mb-3"
+									aria-label=".form-select-lg example"
+									value={editedTag}
+								>
+									<option>Tag:</option>
+									<option value="Home">Home</option>
+									<option value="School">School</option>
+								</select>
 							</>
 						) : (
 							<div
@@ -119,6 +138,15 @@ const TodoItem = ({
 								}}
 							>
 								<div>{task.title}</div>
+								<div
+									className={`btn ${
+										task.tag === 'Home'
+											? 'btn-outline-primary btn-sm'
+											: 'btn-outline-info btn-sm'
+									} todo-output`}
+								>
+									{task.tag}
+								</div>
 
 								<div className="todo-output">
 									<FontAwesomeIcon icon={faCalendarAlt} />

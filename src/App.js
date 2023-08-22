@@ -12,6 +12,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Priority from './components/Priority';
 import Switch from './components/Switch';
 import { useTheme } from './Hook/ThemeContext';
+import Tags from './components/Tags';
 
 const App = () => {
 	const [tasks, setTasks] = useState([]);
@@ -20,12 +21,13 @@ const App = () => {
 	const [sortOrder, setSortOrder] = useState('');
 	const [selectDate, setSelectDate] = useState('');
 	const [selectPriority, setSelectPriority] = useState('');
+	const [selectedTag, setSelectedTag] = useState('');
 
 	//Theme
 	const { theme } = useTheme();
 
 	// Add Task
-	const handleAddTask = (title, date, priority) => {
+	const handleAddTask = (title, date, priority, tag) => {
 		if (title.trim() === '') {
 			alert('Please add a task and due date!');
 			return;
@@ -38,6 +40,7 @@ const App = () => {
 				completed: false,
 				date: date,
 				priority: priority,
+				tag: tag,
 			},
 		]);
 	};
@@ -106,6 +109,10 @@ const App = () => {
 			return tasks.filter((task) => !task.completed);
 		} else if (filter === 'Completed') {
 			return tasks.filter((task) => task.completed);
+		} else if (filter === 'Home') {
+			return tasks.filter((task) => task.tag === 'Home');
+		} else if (filter === 'School') {
+			return tasks.filter((task) => task.tag === 'School');
 		}
 	};
 
@@ -139,6 +146,10 @@ const App = () => {
 				return a.priority === 'Medium' ? -1 : b.priority === 'Medium' ? 1 : 0;
 			} else if (sortOrder === 'Low') {
 				return a.priority === 'Low' ? -1 : b.priority === 'Low' ? 1 : 0;
+			} else if (sortOrder === 'Home') {
+				return a.tag.localeCompare(b.tag);
+			} else if (sortOrder === 'School') {
+				return b.tag.localeCompare(a.tag);
 			}
 			return 0;
 		});
@@ -160,6 +171,11 @@ const App = () => {
 	// handle priorities
 	const handlePriorityChange = (e) => {
 		setSelectPriority(e.target.value);
+	};
+
+	// handle tags
+	const handleTagChange = (e) => {
+		setSelectedTag(e.target.value);
 	};
 
 	// Search Filter
@@ -215,6 +231,8 @@ const App = () => {
 					setSelectDate={setSelectDate}
 					priority={selectPriority}
 					setSelectPriority={setSelectPriority}
+					tag={selectedTag}
+					setSelectedTag={setSelectedTag}
 				/>
 				<DatePicker
 					showTimeSelect
@@ -232,9 +250,11 @@ const App = () => {
 					onPriorityChange={handlePriorityChange}
 					priority={selectPriority}
 				/>
+				<Tags onTagChange={handleTagChange} tag={selectedTag} />
 				<FilterOption filter={filter} setFilter={setFilter} />
 				<SortOption sortOrder={sortOrder} onSortChange={handleSortChange} />
 				<TaskList
+					tag={selectedTag}
 					priority={selectPriority}
 					date={selectDate}
 					onSelectAll={handleSelectAll}

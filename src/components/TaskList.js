@@ -13,13 +13,15 @@ const TaskList = ({
 	onSelectAll,
 	date,
 	priority,
+	tag,
 }) => {
-
-	const {theme} = useTheme()
+	const { theme } = useTheme();
 	return (
-		<div style={{
-			color: theme === "light" ? "black" : "white",
-		  }}>
+		<div
+			style={{
+				color: theme === 'light' ? 'black' : 'white',
+			}}
+		>
 			<div className="task-counter">
 				{remaining} remaining out of {tasks.length} tasks
 			</div>
@@ -34,6 +36,7 @@ const TaskList = ({
 			{tasks.map((task) => (
 				<div className="" style={{ maxWidth: '550px' }} id="todo" key={task.id}>
 					<TodoItem
+						tag={tag}
 						priority={priority}
 						date={new Date(task.date)}
 						task={task}
