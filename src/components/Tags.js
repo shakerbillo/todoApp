@@ -5,12 +5,12 @@ const Tags = ({ onTagChange, tag }) => {
 		<div className='tag'>
 			<select
 				onChange={onTagChange}
-				className="form-select form-select-lg mb-3"
-				style={{ width: '40%' }}
+				className="form-select form-select-md mb-3"
+				
 				aria-label=".form-select-lg example"
 				value={tag}
 			>
-				<option>Tag:</option>
+				<option>Select Tag</option>
 				<option value="Home">Home</option>
 				<option value="School">School</option>
 			</select>

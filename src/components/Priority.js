@@ -5,12 +5,12 @@ const Priority = ({ onPriorityChange, priority }) => {
 		<div className="priority">
 			<select
 				onChange={onPriorityChange}
-				className="form-select form-select-lg mb-3"
-				style={{ width: '40%' }}
+				className="form-select form-select-md mb-3"
+				
 				aria-label=".form-select-lg example"
 				value={priority}
 			>
-				<option>Priority:</option>
+				<option>Select Priority</option>
 				<option value="High">High</option>
 				<option value="Medium">Medium</option>
 				<option value="Low">Low</option>

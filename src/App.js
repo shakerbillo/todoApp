@@ -16,6 +16,8 @@ import Tags from './components/Tags';
 
 const App = () => {
 	const [tasks, setTasks] = useState([]);
+	const [title, setTitle] = useState('');
+	const [isDisabled, setIsDisabled] = useState(true);
 	const [search, setSearch] = useState('');
 	const [filter, setFilter] = useState('All');
 	const [sortOrder, setSortOrder] = useState('');
@@ -28,10 +30,10 @@ const App = () => {
 
 	// Add Task
 	const handleAddTask = (title, date, priority, tag) => {
-		if (title.trim() === '') {
-			alert('Please add a task and due date!');
-			return;
-		}
+		// if (title.trim() === '') {
+		// 	alert('Please add a task and due date!');
+		// 	return;
+		// }
 		setTasks([
 			...tasks,
 			{
@@ -43,6 +45,21 @@ const App = () => {
 				tag: tag,
 			},
 		]);
+	};
+
+	// handleTitleChange
+	const handleTitleChange = (e) => {
+		setTitle(e.target.value);
+		validateInputEntered();
+	};
+
+	// check if all input fields are entered
+	const validateInputEntered = () => {
+		if (title && selectDate && selectPriority && selectedTag) {
+			setIsDisabled(false);
+		} else {
+			setIsDisabled(true);
+		}
 	};
 
 	// hanldeEdit
@@ -96,6 +113,29 @@ const App = () => {
 		);
 	};
 
+	// select date and time
+	const handleDateTimeChange = (date) => {
+		setSelectDate(new Date(date));
+		validateInputEntered();
+	};
+
+	// handle priorities
+	const handlePriorityChange = (e) => {
+		setSelectPriority(e.target.value);
+		validateInputEntered();
+	};
+
+	// handle tags
+	const handleTagChange = (e) => {
+		setSelectedTag(e.target.value);
+		validateInputEntered();
+	};
+
+	const handleSortChange = (e) => {
+		console.log('Sort order changed:', e.target.value);
+		setSortOrder(e.target.value);
+	};
+
 	// handle search
 	const handleSearchChange = (e) => {
 		setSearch(e.target.value);
@@ -114,11 +154,6 @@ const App = () => {
 		} else if (filter === 'School') {
 			return tasks.filter((task) => task.tag === 'School');
 		}
-	};
-
-	// select date and time
-	const handleDateTimeChange = (date) => {
-		setSelectDate(new Date(date));
 	};
 
 	// sorting task
@@ -158,25 +193,10 @@ const App = () => {
 		setTasks(sortedTasks);
 	};
 
-	const handleSortChange = (e) => {
-		console.log('Sort order changed:', e.target.value);
-		setSortOrder(e.target.value);
-	};
-
 	// Sort the tasks when sortOrder changes
 	useEffect(() => {
 		sortTask();
 	}, [sortOrder]);
-
-	// handle priorities
-	const handlePriorityChange = (e) => {
-		setSelectPriority(e.target.value);
-	};
-
-	// handle tags
-	const handleTagChange = (e) => {
-		setSelectedTag(e.target.value);
-	};
 
 	// Search Filter
 	const filteredTasks = applyFilter().filter((task) => {
@@ -215,7 +235,7 @@ const App = () => {
 				backgroundColor: theme === 'light' ? 'white' : 'black',
 			}}
 		>
-			<div className="container" id="todo-list">
+			<div id="todo-list">
 				<Switch />
 				<h1
 					style={{
@@ -224,8 +244,11 @@ const App = () => {
 				>
 					Todo List
 				</h1>
-				<SearchTask search={search} onSearch={handleSearchChange} />
+
 				<AddTask
+					title={title}
+					handleTitleChange={handleTitleChange}
+					setTitle={setTitle}
 					onAddTask={handleAddTask}
 					date={selectDate}
 					setSelectDate={setSelectDate}
@@ -233,26 +256,32 @@ const App = () => {
 					setSelectPriority={setSelectPriority}
 					tag={selectedTag}
 					setSelectedTag={setSelectedTag}
+					isDisabled={isDisabled}
+					setIsDisabled={setIsDisabled}
 				/>
-				<DatePicker
-					showTimeSelect
-					timeFormat="HH:mm"
-					timeIntervals={15}
-					dateFormat="dd/MM/yyyy"
-					minDate={new Date()}
-					className="form-control date-picker"
-					placeholderText="select date"
-					selected={selectDate}
-					onChange={handleDateTimeChange}
-					showYearDropdown
-				/>
-				<Priority
-					onPriorityChange={handlePriorityChange}
-					priority={selectPriority}
-				/>
-				<Tags onTagChange={handleTagChange} tag={selectedTag} />
+				<div className="select_input">
+					<Priority
+						onPriorityChange={handlePriorityChange}
+						priority={selectPriority}
+					/>
+					<Tags onTagChange={handleTagChange} tag={selectedTag} />
+					<DatePicker
+						showTimeSelect
+						timeFormat="HH:mm"
+						timeIntervals={15}
+						dateFormat="dd/MM/yyyy"
+						minDate={new Date()}
+						className="form-control form-control-md mb-3"
+						placeholderText="Select date"
+						selected={selectDate}
+						onChange={handleDateTimeChange}
+						showYearDropdown
+					/>
+				</div>
+
 				<FilterOption filter={filter} setFilter={setFilter} />
 				<SortOption sortOrder={sortOrder} onSortChange={handleSortChange} />
+				<SearchTask search={search} onSearch={handleSearchChange} />
 				<TaskList
 					tag={selectedTag}
 					priority={selectPriority}

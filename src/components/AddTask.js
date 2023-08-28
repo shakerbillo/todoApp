@@ -1,44 +1,50 @@
 import React, { useState } from 'react';
 
-
-const AddTask = ({ onAddTask , date, setSelectDate,priority, setSelectPriority, tag, setSelectedTag}) => {
-	const [title, setTitle] = useState('');
-
-	// handleTodoChange
-	const handleTodoChange = (e) => {
-		setTitle(e.target.value);
-	};
-
+const AddTask = ({
+	title,
+	setTitle,
+	handleTitleChange,
+	onAddTask,
+	date,
+	setSelectDate,
+	priority,
+	setSelectPriority,
+	tag,
+	setSelectedTag,
+	isDisabled,
+	setIsDisabled,
+}) => {
 	const handleButtonClick = () => {
 		onAddTask(title, date, priority, tag);
 		setTitle('');
-		setSelectDate('')
-		setSelectPriority('')
-		setSelectedTag('')
-
+		setSelectDate('');
+		setSelectPriority('');
+		setSelectedTag('');
+		setIsDisabled(true);
 	};
+
 	return (
 		<>
-			<div className="input-group mb-3">
+			<div className="input-group mb-3 row">
 				<input
 					type="text"
 					value={title}
-					onChange={handleTodoChange}
+					onChange={handleTitleChange}
 					className="form-control"
 					placeholder="Add Task..."
 					style={{ maxWidth: '400px' }}
 				/>
-
-				<button
-					className="btn btn-success"
-					style={{ borderRadius: '5px' }}
-					onClick={handleButtonClick}
-				>
-					Add
-				</button>
-				
+				<div className='col-auto'>
+					<button
+						className="btn btn-success"
+						style={{ borderRadius: '5px' }}
+						onClick={handleButtonClick}
+						disabled={isDisabled}
+					>
+						Add
+					</button>
+				</div>
 			</div>
-			
 		</>
 	);
 };

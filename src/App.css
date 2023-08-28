@@ -3,11 +3,12 @@
 	padding: 16px;
 	flex-direction: column;
 	min-height: 100vh;
+	font-family: 'Libre Baskerville', serif;
   }
   
 h1 {
 	text-align: center;
-	font-family: 'Libre Baskerville', serif;
+	
 }
 
 body {
@@ -34,9 +35,9 @@ ul {
 form input {
 	margin-right: 16px;
 }
-.list-group-item {
+/* .list-group-item {
 	font-family: 'Libre Baskerville', serif;
-}
+} */
 
 .button-action {
 	display: flex;
@@ -89,4 +90,11 @@ form input {
 	
 	
 	
+}
+
+.select_input{
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+
 }

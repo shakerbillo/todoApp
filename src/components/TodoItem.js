@@ -88,7 +88,7 @@ const TodoItem = ({
 							<>
 								<input
 									type="text"
-									className={`form-control ${
+									className={`form-control form-control-lg mb-3 ${
 										editedTitle.trim() === '' ? 'is-invalid' : 'is-valid'
 									}`}
 									id="validationServer03"
@@ -99,6 +99,7 @@ const TodoItem = ({
 								{error && <div className="invalid-feedback">{error}</div>}
 
 								<DatePicker
+								className="form-control form-control-lg mb-3"
 									showTimeSelect
 									timeFormat="HH:mm"
 									timeIntervals={15}
